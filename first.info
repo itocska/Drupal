@@ -1,0 +1,4 @@
+name = First
+description = Some info file for practice
+package = Other
+core = 7.x

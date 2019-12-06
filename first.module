@@ -1,0 +1,59 @@
+<?php
+
+function first_menu(){
+	$items['randomurl'] = array(
+		'title' => 'First menus title',
+		'page callback' => 'first_menu_page',
+		'access arguments' => array(
+			'access content',
+		),
+		'type' => MENU_CALLBACK,
+	);
+	return $items;
+}
+
+function first_menu_page(){
+	
+	return 'First text';
+	
+}
+
+
+function first_block_info() {
+  $blocks = array();
+  $blocks['my_block'] = array(
+    'info' => t('First Homemade Block'),
+  );
+  
+  return $blocks;
+}
+
+function first_block_view($delta='') {
+  $block = array();
+  
+  switch($delta) {
+    case 'my_block' :
+		$block['subject'] = t('First block\'s subject');
+		$block['content'] = first_block_content();
+		break;
+  }
+  
+  return $block;
+}
+
+function first_block_content() {
+	$output = '';
+	$query = db_select('node', 'n')
+		->fields('n', array('nid', 'title'))
+		->condition('n.type', 'esemeny')
+		->orderBy('n.nid', 'DESC')
+		->range(0,5);
+	$results = $query->execute()->fetchAll();
+	
+	foreach($results as $result) {
+		$output .= $result->title . ' ' . $result->nid . '<hr/>';
+		
+	}
+	
+	return $output;
+}
