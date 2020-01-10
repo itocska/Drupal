@@ -43,15 +43,19 @@ function first_block_view($delta='') {
 
 function first_block_content() {
 	$output = '';
-	$query = db_select('node', 'n')
-		->fields('n', array('nid', 'title'))
+	$query = db_select('node', 'n');
+	$query->join('field_data_field_datum', 'f', 'n.nid = f.entity_id');
+	$query
+		//->fields('n', array('nid', 'title'))
+		->fields('n', array('title'))
+		->fields('f', array('field_datum_value'))
 		->condition('n.type', 'esemeny')
 		->orderBy('n.nid', 'DESC')
-		->range(0,5);
+		->range(0,10);
 	$results = $query->execute()->fetchAll();
 	
 	foreach($results as $result) {
-		$output .= $result->title . ' ' . $result->nid . '<hr/>';
+		$output .= $result->title . ' ' . $result->field_datum_value. '<hr/>';
 		
 	}
 	
