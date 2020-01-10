@@ -47,7 +47,7 @@ function first_block_content() {
 	$query->join('field_data_field_datum', 'f', 'n.nid = f.entity_id');
 	$query
 		//->fields('n', array('nid', 'title'))
-		->fields('n', array('title'))
+		->fields('n', array('title', 'nid'))
 		->fields('f', array('field_datum_value'))
 		->condition('n.type', 'esemeny')
 		->orderBy('n.nid', 'DESC')
@@ -55,7 +55,7 @@ function first_block_content() {
 	$results = $query->execute()->fetchAll();
 	
 	foreach($results as $result) {
-		$output .= $result->title . ' ' . $result->field_datum_value. '<hr/>';
+		$output .= $linkbutton = l($result->title, 'node/'.$result->nid.'') . ' ' . $result->field_datum_value. '<hr/>';
 		
 	}
 	
